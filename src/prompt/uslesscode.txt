@@ -1,0 +1,72 @@
+"use client"
+import React from 'react'
+import axios from "axios"
+const page = () => {
+  const [userquery,setUserquery] = React.useState("")
+  const [showpreview,Setshowpreview] = React.useState(false)
+  const [srcdocvalue,setsrcdocvalue] = React.useState("")
+  const [chat,setChat] = React.useState([{
+    role:"ai",
+    content:"How can I Assist you?"
+  }])
+
+  const asktoai = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      const userchat = {
+        role: "user",
+        content: userquery,
+      };
+      setChat(prev => [...prev, userchat]);
+      const userquery_temp = userquery;
+      setUserquery(""); 
+      const res = await axios.post("/api/askai", {
+        userquery: userquery_temp,
+      });
+      console.log(res.data);
+      if(res.data.ai_response.success == true){
+        Setshowpreview(true);
+        setsrcdocvalue(res.data.ai_response.combined); // no JSON.parse here
+        console.log("Start Working");
+      }else{
+        setChat(prev => [
+          ...prev,
+          {
+            role: "ai",
+            content: res.data.ai_response.message,
+          },
+        ]);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  
+  return (
+    <>
+    {
+      showpreview?
+      <iframe
+      srcDoc={srcdocvalue}
+      style={{ width: "100%", height: "100vh", border: "none" }}
+    />
+     :
+    <div className='w-[60%] m-auto flex flex-col h-[70vh] mt-[4rem] rounded-[10px] p-[0.5rem] bg-gray-800 ' >
+    <div className="w-full h-[90%] flex flex-col gap-[1rem] custom-scrollbar">
+        {chat.map((item, index) => (
+          <div key={index} className="flex bg-gray-700 p-2 rounded gap-2 w-[90%] ">
+            {item.role === "ai" ? <h2>🤖</h2> : <h2>🧑‍🦱</h2>}
+            <h3>{item.content}</h3>
+          </div>
+        ))}
+      </div>
+      <form onSubmit={asktoai}  className='w-[100%]' >
+        <input onChange={(e)=>setUserquery(e.target.value)} value={userquery} type="text" className='bg-gray-700 text-white p-[0.5rem] w-full ' placeholder='Chat with AI...' required/>
+      </form>
+    </div>
+    }
+    </>
+  )
+}
+
+export default page
