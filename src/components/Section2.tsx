@@ -6,7 +6,7 @@ import Section2Background from "@/assets/section2-background.png"
 const Section2 = () => {
   return (
     <>
-        <div className='relative z-[5] w-full ' >
+        <div className='relative z-[5] w-full  min-h-[100vh] ' >
             <Chathomeui/>
             <div className='absolute top-[7rem] w-full flex justify-center items-center z-[-5] '  >
                  <Image className=' w-[80%]  '  src={Section2Image} alt='Image' />
