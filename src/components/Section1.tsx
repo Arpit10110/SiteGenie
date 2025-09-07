@@ -1,11 +1,17 @@
 'use client'
 import Link from 'next/link'
-import React from 'react'
+import React, { useEffect } from 'react'
 import SplitText from './ui/SplitText'
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 const Section1 = () => {
   const handleAnimationComplete = () => {
     console.log('All letters have animated!');
   };
+
+  useEffect(()=>{
+    AOS.init();
+  },[])
   return (
     <>
         <div className=' w-full  ' >
@@ -16,9 +22,9 @@ const Section1 = () => {
               <div className='w-[100%] flex flex-col gap-[0.5rem] ' >
                 <SplitText
                 text="Turn Your Ideas Into Stunning Websites Instantly"
-                className="text-[4rem] robot-font font-bold "
-                delay={100}
-                duration={0.6}
+                className="text-[4rem] robot-font font-bold !text-start "
+                delay={50}
+                duration={0.5}
                 ease="power3.out"
                 splitType="chars"
                 from={{ opacity: 0, y: 40 }}
@@ -28,11 +34,11 @@ const Section1 = () => {
                 textAlign="center"
                 onLetterAnimationComplete={handleAnimationComplete}
                 />
-                <p className='text-[2rem] robot-font text-gray-300 font-medium '>
+                <p data-aos="fade-up" data-aos-duration="1000"  data-aos-delay="300"   data-aos-easing="linear" className='text-[2rem] robot-font text-gray-300 font-medium '>
                 Describe what you want and GenieLab instantly builds it. Preview, edit, and launch in seconds.
                 </p>
               </div>
-              <div className='flex gap-[2rem] mt-[1rem] ' >
+              <div data-aos="fade-up" data-aos-duration="1000" data-aos-delay="400"  data-aos-easing="linear" className='flex gap-[2rem] mt-[1rem] ' >
                 <div className='flex  w-fit max-w-sm  rounded-[10px] bg-gradient-to-tr from-orange-600 to-blue-500 p-0.5 shadow-lg  hover:scale-[1.03] transition-all    '>
                   <Link  className=' bg-gray-950 px-[1rem] py-[0.3rem] flex rounded-[10px]  text-[2rem] robot-font'  href={"/genielab"}>Get Started - Free</Link>
                 </div>

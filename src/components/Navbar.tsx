@@ -6,7 +6,7 @@ const Navbar = () => {
   return (
     <>
     <div className='w-full flex justify-center items-center relative' >
-        <nav  className=' backdrop-blur-[10px] fixed top-[2.5rem] z-[5] flex justify-between  items-center w-[85%] m-auto bg-transparent rounded-[10px] py-[0.5rem] px-[1rem] border-[1px] border-gray-700 ' >
+        <nav  className=' backdrop-blur-[10px] fixed top-[2.5rem] z-[20] flex justify-between  items-center w-[85%] m-auto bg-transparent rounded-[10px] py-[0.5rem] px-[1rem] border-[1px] border-gray-700 ' >
             <div className='flex  items-center gap-[0.5rem] w-[20%]   ' >
                 <Image className='w-[12%]' src={logo} alt='SiteGenie' />
                 <Link href={"/"} className='robot-font text-[2.5rem]  ' >SiteGenie</Link>
