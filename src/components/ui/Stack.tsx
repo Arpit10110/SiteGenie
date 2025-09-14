@@ -4,7 +4,9 @@ import { useScroll } from 'motion/react';
 import { useRef } from 'react';
 import React from 'react'
 import { Card } from './StackCard';
-
+import StackImage1 from "@/assets/html-image.png"
+import StackImage2 from "@/assets/css-image.png"
+import StackImage3 from "@/assets/preview-image.png"
 const projects = [
     {
         title: 'Smart HTML Structure',
@@ -14,8 +16,9 @@ const projects = [
         point2: "Lightweight and SEO-friendly structure",
         point3: "Optimized for accessibility and best practices",
         src: 'rock.jpg',
-        link: 'https://images.unsplash.com/photo-1605106702842-01a887a31122?q=80&w=500&auto=format&fit=crop',
-        color: '#191B1B',
+        link: StackImage1,
+        color: '#000000',
+        imageleft: false,
       },
       {
         title: 'Modern CSS Styling',
@@ -25,8 +28,9 @@ const projects = [
         point2: "Advanced gradient & animation effects",
         point3: "Dark mode and theme customization out of the box",
         src: 'rock.jpg',
-        link: 'https://images.unsplash.com/photo-1605106702842-01a887a31122?q=80&w=500&auto=format&fit=crop',
-        color: '#191B1B',
+        link: StackImage2,
+        color: '#000000',
+        imageleft: true,
       },
       {
         title: 'Instant Preview & Testing',
@@ -36,8 +40,10 @@ const projects = [
         point2: "Cross-device preview simulation",
         point3: "Error detection & quick debugging built-in",
         src: 'rock.jpg',
-        link: 'https://images.unsplash.com/photo-1605106702842-01a887a31122?q=80&w=500&auto=format&fit=crop',
-        color: '#191B1B',
+        link: StackImage3,
+        color: '#000000',
+        imageleft: false,
+
       }
       
 ];
@@ -62,9 +68,13 @@ const Stack = () => {
                 title={project?.title}
                 color={project?.color}
                 description={project?.description}
+                point1={project?.point1}
+                point2={project?.point2}
+                point3={project?.point3}
                 progress={scrollYProgress}
                 range={[i * 0.25, 1]}
                 targetScale={targetScale}
+                imageleft={project?.imageleft}
               />
             );
           })}
