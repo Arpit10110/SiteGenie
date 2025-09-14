@@ -71,7 +71,7 @@ const Section4 = () => {
                 </div>
 
                 <h1 data-aos="fade-up" data-aos-duration="3000" data-aos-delay="100" className='text-[4rem]' >Seamless Web Creation</h1>
-                <p data-aos="fade-up"data-aos-duration="3000" data-aos-delay="150" className='text-[2rem] text-center w-[50%] text-gray-300 ' >
+                <p data-aos="fade-up"data-aos-duration="3000" data-aos-delay="150" className='text-[2rem] text-center w-[50%] max-tablet:w-[80%]  text-gray-300 ' >
                 GenieLab lets you craft beautiful websites with clean HTML, stylish CSS, and powerful JavaScript — all synced in real time with instant previews. Build faster, smarter, and without the usual setup hassle.
                 </p>
             </div>
@@ -79,7 +79,7 @@ const Section4 = () => {
                 {
                     features.map((i,index)=>{
                         return (
-                            <div data-aos="flip-left" data-aos-duration="3000"  className={` ${widthClass[i.window_width]} border-[0.5px] border-gray-700 flex flex-col gap-[1rem] py-[2rem] px-[2rem] rounded-[10px] `}  key={index} >
+                            <div data-aos="flip-left" data-aos-duration="3000"  className={` ${widthClass[i.window_width]} border-[0.5px] border-gray-700 flex flex-col gap-[1rem] py-[2rem] px-[2rem] rounded-[10px] max-tablet:w-[80%]  `}  key={index} >
                                 <Image src={i.image} alt='Image' className='w-[100%] h-[50vh] object-cover rounded-[10px]   ' />
                                 <h2 className='text-[3rem]  ' >{i.title}</h2>
                                 <p className='text-[1.5rem] text-gray-400  ' > 

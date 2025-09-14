@@ -6,11 +6,11 @@ import LinkedInIcon from '@mui/icons-material/LinkedIn';
 const Footer = () => {
   return (
     <>
-        <footer className='flex w-[80%] m-auto justify-between py-[2rem] px-[1rem] bg-[#ffffff08] mb-[4rem] items-center rounded-[10px] border-[1.5px] border-gray-800 ' > 
-            <div>
+        <footer className='flex w-[80%] flex-wrap m-auto max-mobile:gap-[1rem] justify-between py-[2rem] px-[1rem] bg-[#ffffff08] mb-[4rem] items-center rounded-[10px] border-[1.5px] border-gray-800 ' > 
+            <div className='max-mobile:w-full' >
                 <h3 className='text-[1.5rem] text-gray-200 ' >© 2025  Design & Developed by Arpit Agrahari </h3> 
             </div>
-            <div className='flex gap-[2rem] ' >
+            <div className='flex gap-[2rem] max-mobile:w-full ' >
                 <a href="">
                 <FacebookIcon className='!text-[2rem] text-gray-200 hover:scale-[1.03] transition-all' />
                 </a>

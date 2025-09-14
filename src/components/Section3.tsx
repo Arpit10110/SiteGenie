@@ -14,7 +14,7 @@ const Section3 = () => {
       
   return (
     <>
-        <div className='my-[8rem]' >
+        <div className='my-[8rem]  max-tablet:mt-[10rem] ' >
             <h2 className='text-[3rem] text-center text-gray-300 ' >Bring Ideas to Life in Seconds</h2>
             <div className='mt-[5rem] cursor-default ' >
                 <Marquee>

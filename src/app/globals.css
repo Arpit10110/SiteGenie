@@ -8,6 +8,15 @@ html{
   --background: #ffffff;
   --foreground: #171717;
 }
+@theme{
+  --breakpoint-laptop: 1255px;
+  --breakpoint-slaptop: 1024px;
+  --breakpoint-tablet: 780px;
+  --breakpoint-mobile: 670px;
+  --breakpoint-smobile: 460px;
+  --breakpoint-xsmobile: 375px;
+}
+
 
 @theme inline {
   --color-background: var(--background);
@@ -25,4 +34,28 @@ body {
 }
 .robot-font{
   font-family: "Roboto", sans-serif;
+}
+
+
+
+
+@media (max-width: 1024px) {
+  html {
+    font-size: 70%;
+  }
+}
+@media (max-width: 780px) {
+  html {
+    font-size: 65%;
+  }
+}
+@media (max-width: 670px) {
+  html {
+    font-size: 60%;
+  }
+}
+@media (max-width: 460px) {
+  html {
+    font-size: 55%;
+  }
 }

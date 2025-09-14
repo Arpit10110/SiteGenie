@@ -6,7 +6,7 @@ const Chathomeui = () => {
   return (
    <>
    <div  className='flex justify-center items w-full ' >
-        <div  className='w-[50%] flex  rounded-[10px] bg-gradient-to-tr from-orange-600 to-blue-500 p-[0.25rem] shadow-lg  ' >
+        <div  className='w-[50%] max-tablet:w-[90%] flex  rounded-[10px] bg-gradient-to-tr from-orange-600 to-blue-500 p-[0.25rem] shadow-lg  ' >
             <div className='w-[100%] bg-black px-[1rem] py-[2rem] rounded-[10px]  text-[1.5rem] robot-font flex flex-col gap-[3rem]   ' >
                 <div>
                 <TypingAnimation/>
