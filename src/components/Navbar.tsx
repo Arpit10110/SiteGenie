@@ -16,7 +16,7 @@ const Navbar = () => {
                 <Link className='text-[1.5rem] robot-font hover:scale-[1.03] transition-all text-gray-300 hover:text-white font-medium '  href={"/"} >Home</Link>
                 <Link className='text-[1.5rem] robot-font hover:scale-[1.03] transition-all text-gray-300 hover:text-white font-medium '  href={"/"} >About</Link>
                 <Link className='text-[1.5rem] robot-font hover:scale-[1.03] transition-all text-gray-300 hover:text-white font-medium '  href={"/"} >Pricing</Link>
-                <Link className='text-[1.5rem] robot-font hover:scale-[1.03] transition-all text-gray-300 hover:text-white font-medium '  href={"/"} >GenieLab</Link>
+                <Link className='text-[1.5rem] robot-font hover:scale-[1.03] transition-all text-gray-300 hover:text-white font-medium '  href={"/genielab"} >GenieLab</Link>
             </div>
             <div className='flex max-w-sm  rounded-[10px] bg-gradient-to-tr from-orange-600 to-blue-500 p-0.5 shadow-lg max-laptop:hidden    ' >
                 <Link className=' bg-gray-950 px-[1rem] py-[0.3rem] flex rounded-[10px]  text-[1.5rem] robot-font hover:bg-gray-900 transition-all  ' href={"/login"} >Get Started</Link>
