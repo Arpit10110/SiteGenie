@@ -1,11 +1,22 @@
 "use client"
 import React, { useState } from 'react'
-
+import axios from 'axios'
+import { useRouter } from 'next/navigation'
 const Page = () => {
+  const router = useRouter()
   const [userprompt, Setuserprompt] =useState('')
-  const handleSubmit = () => {
-    console.log('submit')
-    // Add your form submission logic here
+  const handleSubmit = async() => {
+   try {
+      const res = await axios.post("/api/askai",{
+        userquery:userprompt
+      })
+      console.log(res.data)
+      if(res.data.success){
+        router.push(`/genielab/project/${res.data.chatid}`)
+      }
+   } catch (error) {
+    console.log(error)
+   }
   }
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter' && !e.shiftKey) {
