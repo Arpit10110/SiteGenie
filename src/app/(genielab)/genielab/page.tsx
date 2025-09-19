@@ -1,17 +1,20 @@
 "use client"
-import React from 'react'
+import React, { useState } from 'react'
 
-const page = () => {
-  const [userprompt, Setuserprompt] = React.useState('')
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+const Page = () => {
+  const [userprompt, Setuserprompt] =useState('')
+  const handleSubmit = () => {
     console.log('submit')
     // Add your form submission logic here
   }
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault() 
-      handleSubmit(e as any)
+      if(userprompt.length>0){
+        handleSubmit()
+      }else{
+        alert('Please enter a prompt')
+      }
     }
   }
   return (
@@ -23,7 +26,10 @@ const page = () => {
                     <h3 className='text-[2rem] text-gray-300  max-mobile:text-[1.5rem] text-center ' >Create websites by chatting with AI</h3>
                 </div>
                 <div className='bg-[#ffffff0f] px-[2rem] py-[1rem] rounded-[1rem] w-[60%] max-tablet:w-[80%] max-mobile:w-[90%]  border-[1px] border-gray-700' >
-                  <form onSubmit={()=>console.log('submit')} className='flex flex-col gap-[1rem] ' >
+                  <form onSubmit={(e:React.FormEvent<HTMLFormElement>)=>{
+                    e.preventDefault()
+                    handleSubmit()
+                  }} className='flex flex-col gap-[1rem] ' >
                      <textarea  onKeyDown={handleKeyDown} className='w-full bg-transparent outline-none resize-none h-[6rem] text-[1.5rem] overflow-y-auto hide-scrollbar' value={userprompt}  onChange={(e)=>Setuserprompt(e.target.value)} placeholder='Create a website for my new startup that sells eco-friendly products.'  required></textarea>
                      <div className='flex w-full justify-between items-center ' >
                        <div className='w-fit flex gap-[2rem] text-[1.5rem]  max-mobile:hidden ' > 
@@ -42,4 +48,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page
