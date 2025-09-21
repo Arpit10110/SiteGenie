@@ -1,8 +1,6 @@
 "use client"
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import dynamic from 'next/dynamic'
-import axios from 'axios'
-import { useParams, useSearchParams } from 'next/navigation'
 
 const Editor = dynamic(() => import('@monaco-editor/react'), { 
   ssr: false,

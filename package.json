@@ -19,6 +19,7 @@
     "@types/aos": "^3.0.7",
     "aos": "^3.0.0-beta.6",
     "axios": "^1.11.0",
+    "bcryptjs": "^3.0.2",
     "file-saver": "^2.0.5",
     "gsap": "^3.13.0",
     "jszip": "^3.10.1",
@@ -26,10 +27,12 @@
     "mongoose": "^8.18.1",
     "motion": "^12.23.12",
     "next": "15.5.2",
+    "next-auth": "^5.0.0-beta.29",
     "openai": "^5.19.1",
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "react-fast-marquee": "^1.6.5",
+    "react-toastify": "^11.0.5",
     "react-type-animation": "^3.2.0"
   },
   "devDependencies": {
