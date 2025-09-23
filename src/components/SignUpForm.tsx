@@ -23,12 +23,12 @@ const SignUpForm = () => {
                     router.push('/login')
                 }else{
                     setOpen(false)
-                    toast.error(response.data.message)
+                    toast.error(response.data.message,{theme:"dark"})
                 }
             } catch (error) {
                 setOpen(false)
                 console.log(error)
-                toast.error("Error in Signup Please try again")
+                toast.error("Error in Signup Please try again",{theme:"dark"})
             }
     }
     

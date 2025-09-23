@@ -6,11 +6,10 @@ import { useRouter } from 'next/navigation'
 import { ToastContainer, toast } from 'react-toastify';
 import React from 'react'
 
-const LginForm = () => {
+const LoginForm = () => {
 
   const router = useRouter()
   const [open, setOpen] = React.useState(false);
-  const [name, setName] = React.useState<string>("")
   const [email, setEmail] = React.useState<string>("")
   const [password, setPassword] = React.useState<string>("")
 
@@ -18,18 +17,18 @@ const LginForm = () => {
            e.preventDefault()
           try {
               setOpen(true)
-              const response = await axios.post('/api/signup',{name,email,password})
+              const response = await axios.post('/api/login',{email,password})
+              console.log(response)
               if(response.data.success){
-                  setOpen(false)
-                  router.push('/login')
+                  router.push('/')
               }else{
                   setOpen(false)
-                  toast.error(response.data.message)
+                  toast.error(response.data.message,{theme:"dark"})
               }
           } catch (error) {
               setOpen(false)
               console.log(error)
-              toast.error("Error in Signup Please try again")
+              toast.error("Error in Signup Please try again",{theme:"dark"})
           }
   }
 
@@ -54,4 +53,4 @@ const LginForm = () => {
   )
 }
 
-export default LginForm
+export default LoginForm
