@@ -1,6 +1,7 @@
 import NextAuth from "next-auth"
 import GoogleProvider from 'next-auth/providers/google';
 import CredensitalProvider from 'next-auth/providers/credentials';
+import axios from "axios";
  
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
@@ -22,7 +23,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         if(!email || !userid || !name){
           throw new Error("Invalid credentials")
         }
-        console.log(email,name,userid)
         return {name:name,email:email,id:userid}
       }
     })
@@ -30,4 +30,28 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   pages:{
     signIn:"/login",
   },
+  callbacks:{
+    signIn:async({user,account})=>{
+      if(account?.provider=="google"){
+        const res = await axios.post(`${process.env.Frontend_Url}api/googlelogin`,{
+          email:user.email,
+          name:user.name,
+          googleid:user.id,
+          image:user.image
+        })
+        console.log(res.data)
+        if(res.data.success){
+          return true
+        }else{
+          return false
+        }
+      }
+      else if (account?.provider === "credentials") {
+        return true 
+      }
+      else{
+        return false
+      }
+    }
+  }
 })

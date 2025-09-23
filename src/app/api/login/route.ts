@@ -14,6 +14,9 @@ export const POST = async (req: Request) => {
         if(!user){
             return NextResponse.json({success:false,message:"Please Signup First"})
         }
+        if(!user.password){
+            return NextResponse.json({success:false,message:"Please login with Google"})
+        }
         const isMatch = await bcrypt.compare(password,user.password)
         if(!isMatch){
             return NextResponse.json({success:false,message:"Invalid Password"})

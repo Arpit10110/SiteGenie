@@ -3,7 +3,12 @@ import React from 'react'
 import logo from "@/assets/logo.png"
 import Link from 'next/link'
 import MenuIcon from '@mui/icons-material/Menu';
-const Navbar = () => {
+type User = {
+    id: string;
+    name: string;
+    email: string;
+  };;
+const Navbar = ({user}:{user:User|null}) => {
   return (
     <>
     <div className='w-full flex justify-center items-center relative' >
@@ -19,7 +24,11 @@ const Navbar = () => {
                 <Link className='text-[1.5rem] robot-font hover:scale-[1.03] transition-all text-gray-300 hover:text-white font-medium '  href={"/genielab"} >GenieLab</Link>
             </div>
             <div className='flex max-w-sm  rounded-[10px] bg-gradient-to-tr from-orange-600 to-blue-500 p-0.5 shadow-lg max-laptop:hidden    ' >
-                <Link className=' bg-gray-950 px-[1rem] py-[0.3rem] flex rounded-[10px]  text-[1.5rem] robot-font hover:bg-gray-900 transition-all  ' href={"/login"} >Get Started</Link>
+                {
+                    user == null ? 
+                    <Link className=' bg-gray-950 px-[1rem] py-[0.3rem] flex rounded-[10px]  text-[1.5rem] robot-font hover:bg-gray-900 transition-all  ' href={"/login"} >Get Started</Link>:
+                    <Link className=' bg-gray-950 px-[1rem] py-[0.3rem] flex rounded-[10px]  text-[1.5rem] robot-font hover:bg-gray-900 transition-all  ' href={"/profile"} >Profile</Link>
+                }
             </div>
             <div className='hidden max-laptop:flex ' >
                 <MenuIcon className="!text-[2.5rem]"  />
