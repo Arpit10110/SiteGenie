@@ -7,7 +7,7 @@ import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 import { useRouter } from 'next/navigation'
 import { ToastContainer, toast } from 'react-toastify';
-const page = () => {
+const Page = () => {
     const router = useRouter()
     const [open, setOpen] = React.useState(false);
     const handleSubmit = async (name:string,email:string,password:string) => {
@@ -56,4 +56,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page

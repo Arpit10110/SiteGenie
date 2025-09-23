@@ -19,6 +19,6 @@ export const POST = async (req: Request) => {
         const user = await UserModel.create({name,email,password:hashpassword})
         return NextResponse.json({success:true, message:"User created successfully",user}, {status:201} )
     } catch (error) {
-        return NextResponse.json({success:false,message:"Error in Signup"}, {status:500} )
+        return NextResponse.json({success:false,error:error}, {status:500} )
     }
 }
