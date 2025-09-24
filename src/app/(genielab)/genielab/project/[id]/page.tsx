@@ -8,6 +8,7 @@ import React from 'react'
 import Codepreview from '@/components/Codepreview'
 import JSZip from 'jszip'
 import { saveAs } from 'file-saver'
+
 const Page = () => { 
     const params = useParams()
     const searchParams = useSearchParams() 
@@ -20,6 +21,8 @@ const Page = () => {
     const [loading, setLoading] = useState<boolean>(false)
     const [combinedcode, setCombinedcode] = useState<string>("")
     const [projectName, setProjectName] = useState<string>("MyProject")
+    const [oldchats, setOldchats] = useState<any[]>([])
+
     const getproject = async (id: string) => {
         setLoading(true)
         try {
@@ -28,6 +31,7 @@ const Page = () => {
             }) 
             console.log(res.data)
             if (res.data.success) {
+                setOldchats(res.data.chats)
                 setHtmlContent(res.data.project.html || "")
                 setCssContent(res.data.project.css || "")
                 setJsContent(res.data.project.js || "")
@@ -41,38 +45,44 @@ const Page = () => {
         }
     }
 
-    const downloadFiles = async () => {
-      try {
-          const zip = new JSZip()
-          zip.file("index.html", htmlcontent)
-          zip.file("styles.css", csscontent)
-          zip.file("script.js", jscontent)
-          const content = await zip.generateAsync({ type: "blob" })
-          saveAs(content, `${projectName}.zip`)
-      } catch (error) {
-          console.error("Error creating ZIP file:", error)
-          alert("Error downloading files. Please try again.")
-      }
-  }
-
-  const openInNewTab = () => {
-    try {
-        const blob = new Blob([combinedcode], { type: 'text/html' })
-        const url = URL.createObjectURL(blob)
-        const newWindow = window.open(url, '_blank')
-        setTimeout(() => {
-            URL.revokeObjectURL(url)
-        }, 1000)
-        if (newWindow) {
-            newWindow.focus()
-        }
-    } catch (error) {
-        console.error("Error opening in new tab:", error)
-        alert("Error opening in new tab. Please try again.")
+    // Handle project updates from chat
+    const handleProjectUpdate = (updatedProject: any) => {
+        setHtmlContent(updatedProject.html)
+        setCssContent(updatedProject.css)
+        setJsContent(updatedProject.js)
+        setCombinedcode(updatedProject.combined)
     }
-}
 
+    const downloadFiles = async () => {
+        try {
+            const zip = new JSZip()
+            zip.file("index.html", htmlcontent)
+            zip.file("styles.css", csscontent)
+            zip.file("script.js", jscontent)
+            const content = await zip.generateAsync({ type: "blob" })
+            saveAs(content, `${projectName}.zip`)
+        } catch (error) {
+            console.error("Error creating ZIP file:", error)
+            alert("Error downloading files. Please try again.")
+        }
+    }
 
+    const openInNewTab = () => {
+        try {
+            const blob = new Blob([combinedcode], { type: 'text/html' })
+            const url = URL.createObjectURL(blob)
+            const newWindow = window.open(url, '_blank')
+            setTimeout(() => {
+                URL.revokeObjectURL(url)
+            }, 1000)
+            if (newWindow) {
+                newWindow.focus()
+            }
+        } catch (error) {
+            console.error("Error opening in new tab:", error)
+            alert("Error opening in new tab. Please try again.")
+        }
+    }
 
     useEffect(() => {
         if (id && typeof id === 'string') {
@@ -92,32 +102,45 @@ const Page = () => {
         <>
             <div className='w-full h-[85vh] overflow-y-hidden flex'>
                 <div className='w-[35%] h-full flex justify-end'>
-                    <SideAiChat/>
+                    <SideAiChat 
+                        oldchat={oldchats} 
+                        onProjectUpdate={handleProjectUpdate}
+                    />
                 </div>
                 <div className='w-[65%] h-full px-[1rem]'>
-                    <div className='w-full flex justify-between items-center  ' >
-                      <div className="flex gap-[1.5rem] py-[1rem]" >
-                        <button 
-                            onClick={() => setCodeview(true)} 
-                            className={`text-[1.4rem] rounded-[1rem] px-[1rem] py-[0.3rem] text-white cursor-pointer border-[1px] border-gray-700 transition-colors ${
-                                codeview ? "bg-gray-700" : "bg-black hover:bg-gray-800"
-                            }`}
-                        >
-                            Code
-                        </button>
-                        <button 
-                            onClick={() => setCodeview(false)} 
-                            className={`text-[1.4rem] rounded-[1rem] px-[1rem] py-[0.3rem] text-white cursor-pointer border-[1px] border-gray-700 transition-colors ${
-                                !codeview ? "bg-gray-700" : "bg-black hover:bg-gray-800"
-                            }`}
-                        >
-                            Preview
-                        </button>
-                      </div>
-                      <div className="flex gap-[1.5rem] py-[1rem]" >
-                        <button onClick={downloadFiles}  className='text-[1.4rem] rounded-[1rem] px-[1rem] py-[0.3rem] text-white cursor-pointer border-[1px] border-gray-700 transition-colors '>Download </button>
-                        <button onClick={openInNewTab} className='text-[1.4rem] rounded-[1rem] px-[1rem] py-[0.3rem] text-white cursor-pointer border-[1px] border-gray-700 transition-colors '>Open in new tab</button>
-                      </div>
+                    <div className='w-full flex justify-between items-center'>
+                        <div className="flex gap-[1.5rem] py-[1rem]">
+                            <button 
+                                onClick={() => setCodeview(true)} 
+                                className={`text-[1.4rem] rounded-[1rem] px-[1rem] py-[0.3rem] text-white cursor-pointer border-[1px] border-gray-700 transition-colors ${
+                                    codeview ? "bg-gray-700" : "bg-black hover:bg-gray-800"
+                                }`}
+                            >
+                                Code
+                            </button>
+                            <button 
+                                onClick={() => setCodeview(false)} 
+                                className={`text-[1.4rem] rounded-[1rem] px-[1rem] py-[0.3rem] text-white cursor-pointer border-[1px] border-gray-700 transition-colors ${
+                                    !codeview ? "bg-gray-700" : "bg-black hover:bg-gray-800"
+                                }`}
+                            >
+                                Preview
+                            </button>
+                        </div>
+                        <div className="flex gap-[1.5rem] py-[1rem]">
+                            <button 
+                                onClick={downloadFiles}  
+                                className='text-[1.4rem] rounded-[1rem] px-[1rem] py-[0.3rem] text-white cursor-pointer border-[1px] border-gray-700 transition-colors hover:bg-gray-800'
+                            >
+                                Download
+                            </button>
+                            <button 
+                                onClick={openInNewTab} 
+                                className='text-[1.4rem] rounded-[1rem] px-[1rem] py-[0.3rem] text-white cursor-pointer border-[1px] border-gray-700 transition-colors hover:bg-gray-800'
+                            >
+                                Open in new tab
+                            </button>
+                        </div>
                     </div>
                     <div className='w-full flex-1' style={{ height: 'calc(100% - 4rem)' }}>
                         {codeview ? (
@@ -128,7 +151,7 @@ const Page = () => {
                             />
                         ) : (
                             <Codepreview 
-                            combinedcode={combinedcode}
+                                combinedcode={combinedcode}
                             />
                         )}
                     </div>

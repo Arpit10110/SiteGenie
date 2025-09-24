@@ -9,6 +9,7 @@ type User = {
     email: string;
   };;
 const Navbar = ({user}:{user:User|null}) => {
+
   return (
     <>
     <div className='w-full flex justify-center items-center relative' >

@@ -1,21 +1,32 @@
 "use client"
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
+import SavedProjects from '@/components/SavedProjects'
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
 const Page = () => {
   const router = useRouter()
   const [userprompt, Setuserprompt] =useState('')
+  const [savedprojects, Setsavedprojects] = useState([])
+  const [open, setOpen] = React.useState(false);
+
+
   const handleSubmit = async() => {
    try {
+    setOpen(true)
       const res = await axios.post("/api/askai",{
         userquery:userprompt
       })
-      console.log(res.data)
       if(res.data.success){
         router.push(`/genielab/project/${res.data.chatid}`)
+      }else{
+        setOpen(false)
+        console.log(res.data)
       }
    } catch (error) {
     console.log(error)
+    setOpen(false)
    }
   }
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -28,9 +39,33 @@ const Page = () => {
       }
     }
   }
+
+  const getuserprojects = async()=>{
+    try {
+      setOpen(true)
+      const res = await axios.get("/api/getuserprojects")
+      Setsavedprojects(res.data.projects)
+      setOpen(false)
+    } catch (error) {
+      console.log(error)
+      setOpen(false)
+    }
+  }
+
+
+  useEffect(() => {
+    getuserprojects()
+  }, [])
+
   return (
     <>
-        <div  className='w-full flex mt-[5rem] justify-center items-center  ' >
+      <Backdrop
+                sx={(theme) => ({ color: '#fff', zIndex: theme.zIndex.drawer + 1 })}
+                open={open}
+              >
+                <CircularProgress color="inherit" />
+              </Backdrop>
+        <div  className='w-full flex mt-[5rem] justify-center items-center flex-col ' >
             <div className=' flex flex-col w-full justify-center items-center gap-[4rem] '  >  
                 <div className='flex flex-col justify-center items-center ' >
                     <h2 className='text-[3rem] font-semibold max-mobile:text-[2rem] text-center' >Build something 💞 with SiteGenie</h2>
@@ -55,6 +90,10 @@ const Page = () => {
                 </div>
             </div>
         </div>
+            <div className='w-full  mt-[5rem]   ' >
+              <h2 className='text-[2rem] font-semibold text-gray-300 ml-[3rem] underline cursor-default ' >Saved Projects</h2>
+              <SavedProjects  savedprojects={savedprojects} />
+            </div>
     </>
   )
 }

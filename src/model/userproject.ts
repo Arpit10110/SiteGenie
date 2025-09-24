@@ -4,7 +4,7 @@ const Schema = new mongoose.Schema({
         type:String,
         required:true
     },
-    userid:{
+    user_id:{
         type:mongoose.Schema.Types.ObjectId,
         required:true,
         ref:'User'

@@ -23,6 +23,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         if(!email || !userid || !name){
           throw new Error("Invalid credentials")
         }
+        console.log(userid)
         return {name:name,email:email,id:userid}
       }
     })

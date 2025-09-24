@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { connectDB } from '@/db/db';
 import { ProjectModel } from '@/model/project';
+import { MessageModel } from '@/model/Message';
 
 export const POST = async(req: Request) => {
     try {
@@ -13,9 +14,12 @@ export const POST = async(req: Request) => {
                 message:"Project not found"
             })
         }
+        const chats = await MessageModel.find({project_id:projectid}).sort({createdAt:1});
+        
         return NextResponse.json({
             success:true,
-            project:project
+            project:project,
+            chats:chats
         })
         
     } catch (error) {
