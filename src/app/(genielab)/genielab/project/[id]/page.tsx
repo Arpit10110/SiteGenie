@@ -8,6 +8,7 @@ import React from 'react'
 import Codepreview from '@/components/Codepreview'
 import JSZip from 'jszip'
 import { saveAs } from 'file-saver'
+import Link from 'next/link'
 
 const Page = () => { 
     const params = useParams()
@@ -67,22 +68,7 @@ const Page = () => {
         }
     }
 
-    const openInNewTab = () => {
-        try {
-            const blob = new Blob([combinedcode], { type: 'text/html' })
-            const url = URL.createObjectURL(blob)
-            const newWindow = window.open(url, '_blank')
-            setTimeout(() => {
-                URL.revokeObjectURL(url)
-            }, 1000)
-            if (newWindow) {
-                newWindow.focus()
-            }
-        } catch (error) {
-            console.error("Error opening in new tab:", error)
-            alert("Error opening in new tab. Please try again.")
-        }
-    }
+   
 
     useEffect(() => {
         if (id && typeof id === 'string') {
@@ -103,6 +89,7 @@ const Page = () => {
             <div className='w-full h-[85vh] overflow-y-hidden flex'>
                 <div className='w-[35%] h-full flex justify-end'>
                     <SideAiChat 
+                        project_id={id}
                         oldchat={oldchats} 
                         onProjectUpdate={handleProjectUpdate}
                     />
@@ -134,12 +121,13 @@ const Page = () => {
                             >
                                 Download
                             </button>
-                            <button 
-                                onClick={openInNewTab} 
+                            <Link 
+                            target='_blank'
+                                href={`/genielab/project/preview/${id}`}
                                 className='text-[1.4rem] rounded-[1rem] px-[1rem] py-[0.3rem] text-white cursor-pointer border-[1px] border-gray-700 transition-colors hover:bg-gray-800'
                             >
                                 Open in new tab
-                            </button>
+                            </Link>
                         </div>
                     </div>
                     <div className='w-full flex-1' style={{ height: 'calc(100% - 4rem)' }}>

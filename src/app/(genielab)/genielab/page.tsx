@@ -45,9 +45,9 @@ const Page = () => {
       setOpen(true)
       const res = await axios.get("/api/getuserprojects")
       Setsavedprojects(res.data.projects)
+      console.log(res.data)
       setOpen(false)
     } catch (error) {
-      console.log(error)
       setOpen(false)
     }
   }

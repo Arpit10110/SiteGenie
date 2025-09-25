@@ -3,7 +3,8 @@ import axios from 'axios'
 import React, { useEffect, useRef } from 'react'
 import { useParams } from 'next/navigation'
 
-const SideAiChat = ({ oldchat, onProjectUpdate }: { 
+const SideAiChat = ({project_id, oldchat, onProjectUpdate }: { 
+    project_id: string | string[] | null,
     oldchat: any[], 
     onProjectUpdate: (updatedProject: any) => void 
 }) => {
@@ -11,8 +12,6 @@ const SideAiChat = ({ oldchat, onProjectUpdate }: {
     const [newmessage, setNewmessage] = React.useState("")
     const [isLoading, setIsLoading] = React.useState(false)
     const chatContainerRef = useRef<HTMLDivElement>(null)
-    const params = useParams()
-    const project_id = params?.id
 
     // Initialize chat with old messages
     useEffect(() => {
@@ -55,23 +54,21 @@ const SideAiChat = ({ oldchat, onProjectUpdate }: {
         try {
             const res = await axios.post("/api/customizeproject", {
                 project_id,
-                message: userMsg.message,
-                user_id: "current_user_id" // Replace with actual user ID from auth
+                chat:chat,
+                usermessage:newmessage
             });
+            console.log(res.data)
 
             if (res.data.success) {
-                // Remove loading message and add actual AI response
                 setChat(prev => {
-                    const newChat = prev.slice(0, -1); // Remove loading message
+                    const newChat = prev.slice(0, -1);
                     return [...newChat, {
                         messaged_by: "ai",
-                        message: res.data.aiMessage.message,
-                        createdAt: res.data.aiMessage.createdAt
+                        message: res.data.parsed.message,
+                        createdAt: new Date().toISOString()
                     }];
                 });
-
-                // Update parent component with new project data
-                onProjectUpdate(res.data.updatedProject);
+                onProjectUpdate(res.data.parsed);
             }
         } catch (error) {
             console.error('Error customizing project:', error);
