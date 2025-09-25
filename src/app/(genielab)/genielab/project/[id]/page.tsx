@@ -19,6 +19,15 @@ interface chattype{
     user_id:string
 }
 
+interface updatedProject{
+    html:string,
+    css:string,
+    js:string,
+    combined:string,
+    project_name:string,
+    user_id:string
+}
+
 const Page = () => { 
     const params = useParams()
     const searchParams = useSearchParams() 
@@ -56,7 +65,7 @@ const Page = () => {
     }
 
     // Handle project updates from chat
-    const handleProjectUpdate = (updatedProject: any) => {
+    const handleProjectUpdate = (updatedProject: updatedProject) => {
         setHtmlContent(updatedProject.html)
         setCssContent(updatedProject.css)
         setJsContent(updatedProject.js)

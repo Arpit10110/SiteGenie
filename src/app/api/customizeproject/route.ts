@@ -7,6 +7,15 @@ import { GoogleGenAI } from "@google/genai";
 import { SITE_MODIFICATION_PROMPT } from "@/prompt/modification_prompt";
 import { MessageModel } from "@/model/Message";
 
+interface chattype{
+    messaged_by:string,
+    message:string,
+    createdAt:string
+    project_id:string
+    _id:string
+    user_id:string
+}
+
 export const POST = async(req:Request)=>{
     try {
         const { project_id,chat,usermessage } = await req.json();
@@ -33,7 +42,7 @@ export const POST = async(req:Request)=>{
             return NextResponse.json({success:false,message:"No projects found"})
         }
 
-        const formatChatHistory = (chatMessages: any[]) => {
+        const formatChatHistory = (chatMessages: chattype[]) => {
             return chatMessages
                 .sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()) // Sort by timestamp
                 .map((msg) => {
