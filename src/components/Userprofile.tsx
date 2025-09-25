@@ -4,6 +4,7 @@ import Link from 'next/link';
 import React, { useEffect, useState } from 'react'
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
+import {signOut} from "next-auth/react"
 interface User {
     id: string;
     name: string;
@@ -29,7 +30,6 @@ const Userprofile = () => {
         try {
             setOpen(true)
             const res= await axios.get('/api/getuserprofile')
-            console.log(res.data)
             setuserdata(res.data.user_data)
             setprojects(res.data.userprojects)
             setOpen(false)
@@ -38,6 +38,14 @@ const Userprofile = () => {
         }
     }
 
+    const handleLogOut = async()=>{
+        try {
+            setOpen(true);
+            await signOut({ redirect: true,redirectTo:"/" }); 
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     useEffect(() => {
         getuserdata()
@@ -58,7 +66,7 @@ const Userprofile = () => {
                         <h2>Name: {userdata.name}</h2>
                         <h2>Email: {userdata.email}</h2>
                         <div className='flex gap-[1rem]' >
-                            <button className='text-[1.5rem] bg-gray-800 px-[1rem] py-[0.3rem] rounded-[7px]  cursor-pointer hover:scale-[1.03] transition-all ' >Logout</button>
+                            <button onClick={handleLogOut} className='text-[1.5rem] bg-gray-800 px-[1rem] py-[0.3rem] rounded-[7px]  cursor-pointer hover:scale-[1.03] transition-all ' >Logout</button>
                             <button className='text-[1.5rem] bg-gray-800 px-[1rem] py-[0.3rem] rounded-[7px] cursor-pointer hover:scale-[1.03] transition-all ' >Edit Profile</button>
                         </div>
                     </div>
