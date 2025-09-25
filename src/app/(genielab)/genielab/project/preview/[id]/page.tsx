@@ -2,9 +2,14 @@
 import axios from 'axios'
 import { useParams, useSearchParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
+<<<<<<< HEAD
 import { useRouter } from 'next/navigation'
 const Page = () => {
     const router = useRouter()
+=======
+
+const Page = () => {
+>>>>>>> 7524fe89f5eb5a1aa723f7db53a3ccd3d00b2bdd
         const params = useParams()
         const searchParams = useSearchParams() 
         const id = params?.id || searchParams.get('id')
@@ -21,10 +26,13 @@ const Page = () => {
                 console.log(res.data)
                 if (res.data.success) {
                     setCombinedcode(res.data.combinedcode|| "")
+<<<<<<< HEAD
                 }else{
                     if(res.data.message=="Please login first"){
                         router.push("/login")
                     }
+=======
+>>>>>>> 7524fe89f5eb5a1aa723f7db53a3ccd3d00b2bdd
                 }
             } catch (error) {
                 console.log(error)
