@@ -23,7 +23,6 @@ const GenielabNavbar = ({user}:{user:User|null}) => {
                     </div>
                     <div className='flex items-center  gap-[3rem] min-w-[38%] max-laptop:hidden  ' > 
                         <Link className='text-[1.5rem] robot-font hover:scale-[1.03] transition-all text-gray-300 hover:text-white font-medium '  href={"/"} >Home</Link>
-                        <Link className='text-[1.5rem] robot-font hover:scale-[1.03] transition-all text-gray-300 hover:text-white font-medium '  href={"/"} >About</Link>
                         <Link className='text-[1.5rem] robot-font hover:scale-[1.03] transition-all text-gray-300 hover:text-white font-medium '  href={"/"} >Pricing</Link>
                         <Link className='text-[1.5rem] robot-font hover:scale-[1.03] transition-all text-gray-300 hover:text-white font-medium '  href={"/genielab"} >GenieLab</Link>
                     </div>
