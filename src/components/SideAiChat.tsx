@@ -1,12 +1,28 @@
 "use client"
 import axios from 'axios'
 import React, { useEffect, useRef } from 'react'
-import { useParams } from 'next/navigation'
+
+interface updatedProject{
+    html:string,
+    css:string,
+    js:string,
+    combined:string,
+    project_name:string,
+    user_id:string
+}
+interface chattype{
+    messaged_by:string,
+    message:string,
+    createdAt:string
+    project_id:string
+    _id:string
+    user_id:string
+}
 
 const SideAiChat = ({project_id, oldchat, onProjectUpdate }: { 
     project_id: string | string[] | null,
-    oldchat: any[], 
-    onProjectUpdate: (updatedProject: any) => void 
+    oldchat: chattype[], 
+    onProjectUpdate: (updatedProject: updatedProject) => void 
 }) => {
     const [chat, setChat] = React.useState<{ messaged_by: string; message: string; createdAt?: string }[]>([])
     const [newmessage, setNewmessage] = React.useState("")
