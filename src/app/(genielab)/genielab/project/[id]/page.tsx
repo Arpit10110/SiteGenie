@@ -10,6 +10,15 @@ import JSZip from 'jszip'
 import { saveAs } from 'file-saver'
 import Link from 'next/link'
 
+interface chattype{
+    messaged_by:string,
+    message:string,
+    createdAt:string
+    project_id:string
+    _id:string
+    user_id:string
+}
+
 const Page = () => { 
     const params = useParams()
     const searchParams = useSearchParams() 
@@ -22,7 +31,7 @@ const Page = () => {
     const [loading, setLoading] = useState<boolean>(false)
     const [combinedcode, setCombinedcode] = useState<string>("")
     const [projectName, setProjectName] = useState<string>("MyProject")
-    const [oldchats, setOldchats] = useState<any[]>([])
+    const [oldchats, setOldchats] = useState<chattype[]>([])
 
     const getproject = async (id: string) => {
         setLoading(true)
