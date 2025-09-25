@@ -7,22 +7,14 @@ export const POST = async(req:Request)=>{
     try {
         const { projectid } = await req.json();
         if(!projectid){
-<<<<<<< HEAD
             return NextResponse.json({success:false,message:"Project id is required"});
-=======
-            return NextResponse.json({success:false,error:"Project id is required"});
->>>>>>> 7524fe89f5eb5a1aa723f7db53a3ccd3d00b2bdd
         }
         await connectDB();
         const user  = await getuser();
         if(!user){
             return NextResponse.json({
                 success:false,
-<<<<<<< HEAD
                 message:"Please login first"
-=======
-                error:"Please login first"
->>>>>>> 7524fe89f5eb5a1aa723f7db53a3ccd3d00b2bdd
             })
         }
         await connectDB();
