@@ -3,7 +3,7 @@ import axios from 'axios'
 import { useParams, useSearchParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 
-const page = () => {
+const Page = () => {
         const params = useParams()
         const searchParams = useSearchParams() 
         const id = params?.id || searchParams.get('id')
@@ -52,4 +52,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page

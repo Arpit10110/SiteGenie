@@ -28,7 +28,7 @@ export const POST = async(req:Request)=>{
         }
         await connectDB();
         const user_data = await UserModel.findOne({email:user?.user?.email});
-        let user_projects = await ProjectModel.findById(project_id);
+        const user_projects = await ProjectModel.findById(project_id);
         if(!user_projects){
             return NextResponse.json({success:false,message:"No projects found"})
         }
