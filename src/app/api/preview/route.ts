@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import { getuser } from "@/lib/getuser";
-import { UserModel } from "@/model/Usermodel";
 import { connectDB } from "@/db/db";
 import { ProjectModel } from "@/model/project";
 

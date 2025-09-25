@@ -1,7 +1,13 @@
 import Link from 'next/link'
 import React from 'react'
 
-const SavedProjects = ({savedprojects}:{savedprojects:any[]})=>{
+interface SavedProjectsProps {
+    projectname:string
+    projectid:string
+    user_id:string
+}
+
+const SavedProjects = ({savedprojects}:{savedprojects:SavedProjectsProps[]})=>{
     console.log(savedprojects)
   return (
     <>
