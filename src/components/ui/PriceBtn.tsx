@@ -1,8 +1,8 @@
 import React from "react";
 
-type PriceBtnProps = { tokens: number };
+type PriceBtnProps = { tokens: number,handlepurchase:(pricevalue:number)=>void,pricevalue:number };
 
-const PriceBtn = ({ tokens }: PriceBtnProps) => {
+const PriceBtn = ({ tokens,handlepurchase,pricevalue }: PriceBtnProps) => {
   return (
     <button
       className="
@@ -12,6 +12,9 @@ const PriceBtn = ({ tokens }: PriceBtnProps) => {
         inline-flex items-center justify-center rounded-[5px]
         text-[1.7rem] text-gray-300 hover:bg-neutral-900
       "
+      onClick={()=>{
+        handlepurchase(pricevalue)
+      }}
     >
       <span
         className="

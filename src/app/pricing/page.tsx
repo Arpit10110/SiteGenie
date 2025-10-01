@@ -7,6 +7,7 @@ type PricingPlan = {
   tokens: number;
   points: string[];
   intro: string; 
+  pricevalue:number;
 };
 const Page = () => {
   
@@ -16,6 +17,7 @@ const Page = () => {
       price: "₹49",
       tokens: 10000,
       intro: "Perfect for beginners",
+      pricevalue:49,
       points: [
         "Generate up to 10 simple websites",
         "1 Fresh Build = 1000 tokens",
@@ -28,6 +30,7 @@ const Page = () => {
       price: "₹99",
       tokens: 25000,
       intro: "Best for freelancers",
+      pricevalue:99,
       points: [
         "Generate up to 25 websites or edits",
         "Mix builds and customizations freely",
@@ -40,6 +43,7 @@ const Page = () => {
       price: "₹199",
       tokens: 60000,
       intro: "Ideal for agencies",
+      pricevalue:199,
       points: [
         "Generate up to 60 websites or edits",
         "Best cost-per-build efficiency",
@@ -62,7 +66,7 @@ const Page = () => {
             {
               pricingPlans.map((plan,index)=>{
                 return(
-                  <PricingCard key={index} intro={plan.intro} title={plan.title} price={plan.price} tokens={plan.tokens} points={plan.points}/>
+                  <PricingCard key={index} intro={plan.intro} pricevalue={plan.pricevalue} title={plan.title} price={plan.price} tokens={plan.tokens} points={plan.points}/>
                 )
               })
             }
