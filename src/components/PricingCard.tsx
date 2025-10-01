@@ -10,7 +10,7 @@ type PricingPlan = {
 const PricingCard = ({title,price,tokens,points,intro}:PricingPlan) => {
   return (
     <>
-        <div className='w-[27%] max-tablet:w-[60%] max-mobile:w-[80%] px-[1.5rem] pt-[2rem] pb-[7rem] rounded-[10px] border-[1px] border-gray-700 mb-[10rem] ' >  
+        <div className='w-[27%] max-tablet:w-[60%] max-mobile:w-[80%] px-[1.5rem] pt-[2rem] pb-[7rem] rounded-[10px] border-[1px] border-gray-700 max-tablet:mb-[3rem] ' >  
             <div className='flex flex-col gap-[1.5rem] ' >
                 <div>
                     <h2 className='text-[2rem] text-gray-200 ' >{title}</h2>

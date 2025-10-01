@@ -51,8 +51,8 @@ const Page = () => {
   
   return (
     <>
-      <div>
-        <div className='flex justify-center items-center mt-[2rem] flex-col gap-[2rem] ' >
+      <div className='mb-[10rem] max-mobile:mb-[5rem] ' >
+        <div className='flex justify-center items-center mt-[2rem] flex-col gap-[2rem]  ' >
           <div className='flex  w-fit max-w-sm  rounded-[10px] bg-gradient-to-tr from-orange-600 to-blue-500 p-0.5 shadow-lg  '>
                       <h2 className=' bg-gray-950 px-[1rem] py-[0.3rem] flex rounded-[10px]  text-[1.5rem] robot-font hover:bg-gray-900 transition-all  '   >PRICING & PLANS</h2>
           </div>
