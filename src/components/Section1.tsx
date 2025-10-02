@@ -15,7 +15,7 @@ const Section1 = () => {
   return (
     <>
         <div className=' w-full  ' >
-            <div className='min-h-[100vh]  max-smobile:min-h-[90vh]  max-w-[50%]  max-tablet:max-w-[90%] max-tablet:m-auto   max-tablet:items-center  flex flex-col gap-[1rem] max-tablet:gap-[2rem] justify-center  pl-[4rem] max-tablet:pl-[0rem] ' >
+            <div className='min-h-[100vh]  max-smobile:min-h-[66vh]  max-w-[50%]  max-tablet:max-w-[90%] max-tablet:m-auto   max-tablet:items-center  flex flex-col gap-[1rem] max-tablet:gap-[2rem] justify-center  pl-[4rem] max-tablet:pl-[0rem] ' >
               <div className='flex  w-fit max-w-sm  rounded-[10px] bg-gradient-to-tr from-orange-600 to-blue-500 p-0.5 shadow-lg  '>
                   <h2 className=' bg-gray-950 px-[1rem] py-[0.3rem] flex rounded-[10px]  text-[1.5rem] robot-font hover:bg-gray-900 transition-all  '   >AI-Powered Website Builder</h2>
               </div>
@@ -45,7 +45,7 @@ const Section1 = () => {
                 <Link  className=' bg-gray-950 border-[1px] border-gray-100  px-[1rem] py-[0.3rem] flex rounded-[10px] hover:scale-[1.03]   text-[2rem] robot-font  transition-all max-smobile:w-[80%] max-smobile:flex max-smobile:justify-center' href={"/pricing"}>View Pricing</Link>
               </div>
             </div>
-            <video className='absolute right-0 w-[80%] z-[-5] top-0 max-tablet:w-full max-tablet:h-full object-cover ' src="/sec1video.mp4" loop={true} autoPlay={true} muted={true}  ></video>
+            <video className='absolute right-0 w-[80%] max-smobile:h-[70vh]  z-[-5] top-0 max-tablet:w-full max-tablet:h-full object-cover ' src="/sec1video.mp4" loop={true} autoPlay={true} muted={true}  ></video>
         </div>
     </>
   )

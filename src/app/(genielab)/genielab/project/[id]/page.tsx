@@ -10,6 +10,7 @@ import JSZip from 'jszip'
 import { saveAs } from 'file-saver'
 import Link from 'next/link'
 
+
 interface chattype{
     messaged_by:string,
     message:string,
@@ -19,6 +20,7 @@ interface chattype{
     user_id:string
 }
 
+
 interface updatedProject{
     html:string,
     css:string,
@@ -27,6 +29,7 @@ interface updatedProject{
     project_name:string,
     user_id:string
 }
+
 
 const Page = () => { 
     const params = useParams()
@@ -41,6 +44,37 @@ const Page = () => {
     const [combinedcode, setCombinedcode] = useState<string>("")
     const [projectName, setProjectName] = useState<string>("MyProject")
     const [oldchats, setOldchats] = useState<chattype[]>([])
+    const [isDesktop, setIsDesktop] = useState<boolean | null>(null)
+
+
+    // Check if device is desktop
+    useEffect(() => {
+        const checkDevice = () => {
+            const userAgent = navigator.userAgent.toLowerCase()
+            const isMobileDevice = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini|mobile|tablet/i.test(userAgent)
+            const isSmallScreen = window.innerWidth < 1024 // Below 1024px is considered mobile/tablet
+            
+            setIsDesktop(!isMobileDevice && !isSmallScreen)
+        }
+
+        checkDevice()
+
+        // Also check on window resize
+        const handleResize = () => {
+            const isSmallScreen = window.innerWidth < 1024
+            if (isSmallScreen) {
+                setIsDesktop(false)
+            } else {
+                const userAgent = navigator.userAgent.toLowerCase()
+                const isMobileDevice = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini|mobile|tablet/i.test(userAgent)
+                setIsDesktop(!isMobileDevice)
+            }
+        }
+
+        window.addEventListener('resize', handleResize)
+        return () => window.removeEventListener('resize', handleResize)
+    }, [])
+
 
     const getproject = async (id: string) => {
         setLoading(true)
@@ -64,6 +98,7 @@ const Page = () => {
         }
     }
 
+
     // Handle project updates from chat
     const handleProjectUpdate = (updatedProject: updatedProject) => {
         setHtmlContent(updatedProject.html)
@@ -71,6 +106,7 @@ const Page = () => {
         setJsContent(updatedProject.js)
         setCombinedcode(updatedProject.combined)
     }
+
 
     const downloadFiles = async () => {
         try {
@@ -86,13 +122,39 @@ const Page = () => {
         }
     }
 
-   
 
     useEffect(() => {
         if (id && typeof id === 'string') {
             getproject(id)
         }
     }, [id])
+
+
+    // Show loading while checking device type
+    if (isDesktop === null) {
+        return (
+            <div className='w-full h-[85vh] flex items-center justify-center'>
+                <div className='text-white text-xl'>Loading...</div>
+            </div>
+        )
+    }
+
+
+    // Show message for mobile/tablet users
+    if (!isDesktop) {
+        return (
+            <div className='w-full h-[85vh] flex items-center justify-center px-[2rem]'>
+                <div className='text-center'>
+                    <h1 className='text-white text-3xl font-bold mb-4'>Desktop Only</h1>
+                    <p className='text-gray-400 text-lg'>
+                        This page is only accessible on laptop/desktop devices. 
+                        Please open this page on a larger screen for the best experience.
+                    </p>
+                </div>
+            </div>
+        )
+    }
+
 
     if (loading) {
         return (
@@ -101,6 +163,7 @@ const Page = () => {
             </div>
         )
     }
+
 
     return (
         <>
@@ -140,7 +203,7 @@ const Page = () => {
                                 Download
                             </button>
                             <Link 
-                            target='_blank'
+                                target='_blank'
                                 href={`/genielab/project/preview/${id}`}
                                 className='text-[1.4rem] rounded-[1rem] px-[1rem] py-[0.3rem] text-white cursor-pointer border-[1px] border-gray-700 transition-colors hover:bg-gray-800'
                             >
@@ -166,5 +229,6 @@ const Page = () => {
         </>
     )
 }
+
 
 export default Page

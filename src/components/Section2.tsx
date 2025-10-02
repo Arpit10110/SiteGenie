@@ -11,8 +11,8 @@ const Section2 = () => {
             <div className='absolute top-[7rem] w-full flex justify-center items-center z-[-5] max-tablet:hidden '  >
                  <Image className=' w-[80%]  '  src={Section2Image} alt='Image' />
             </div>
-            <div className='absolute top-[3rem] w-full flex justify-center items-center z-[-8] max-tablet:top-[0rem] ' >
-                 <Image className=' w-[100%] h-[100vh] max-tablet:h-[35vh]  max-smobile:h-[30vh]   '  src={Section2Background} alt='Image' />
+            <div className='absolute top-[3rem] w-full flex justify-center max-smobile:h-[20vh]  items-center z-[-8] max-tablet:top-[0rem] ' >
+                 <Image className=' w-[100%] h-[100vh] max-tablet:h-[35vh]  max-smobile:h-full  '  src={Section2Background} alt='Image' />
             </div>
         </div>
     </>
