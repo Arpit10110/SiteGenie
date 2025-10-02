@@ -6,7 +6,7 @@ import { ProjectModel } from "@/model/project";
 import { GoogleGenAI } from "@google/genai";
 import { SITE_MODIFICATION_PROMPT } from "@/prompt/modification_prompt";
 import { MessageModel } from "@/model/Message";
-
+import { TokenModel } from "@/model/Token";
 interface chattype{
     messaged_by:string,
     message:string,
@@ -37,6 +37,14 @@ export const POST = async(req:Request)=>{
         }
         await connectDB();
         const user_data = await UserModel.findOne({email:user?.user?.email});
+        const Token = await TokenModel.findOne({userid:user_data._id})
+        if(Token.token <1000){
+            return NextResponse.json({
+                success:false,
+                message:"You need more tokens to modify the website"
+            })
+        }
+
         const user_projects = await ProjectModel.findById(project_id);
         if(!user_projects){
             return NextResponse.json({success:false,message:"No projects found"})
@@ -105,7 +113,11 @@ Please analyze the existing website code from the conversation history above and
         }
 
         if(!parsed.success){
-            return NextResponse.json({success:true,error:parsed.message});
+            return NextResponse.json({ 
+                success:false,
+                message:"User query problem",
+                ai_response:parsed.message
+            });
         }
         await ProjectModel.updateOne({_id:project_id},{$set:{html:parsed.html,css:parsed.css,js:parsed.js,combined:parsed.combined}});
 
@@ -121,6 +133,9 @@ Please analyze the existing website code from the conversation history above and
             messaged_by:"ai",
             project_id:project_id
         })
+
+        const lefttoken = Token.token - 1000;
+        await TokenModel.updateOne({userid:user_data._id},{token:lefttoken})
         
         return NextResponse.json({
             success:true,

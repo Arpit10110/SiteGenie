@@ -8,7 +8,7 @@ import { MessageModel } from '@/model/Message';
 import { UserModel } from '@/model/Usermodel';
 import { UserProject } from '@/model/userproject';
 import { getuser } from '@/lib/getuser';
-
+import { TokenModel } from '@/model/Token';
 export const POST = async(req: Request) => {
     try {
       await connectDB();
@@ -18,6 +18,14 @@ export const POST = async(req: Request) => {
             return NextResponse.json({success:false,error:"Please login first"})
         }
         const user_data = await UserModel.findOne({email:user.user?.email});
+
+        const Token = await TokenModel.findOne({userid:user_data._id})
+        if(Token.token <2000){
+          return NextResponse.json({
+            success:false,
+            message:"You have reached your Token limit"
+          })
+        }
         
         const ai = new GoogleGenAI({
           apiKey: process.env.GEMINI_API_KEY!,
@@ -47,10 +55,19 @@ export const POST = async(req: Request) => {
             responseMimeType: "application/json"
           }
         });
+
         const res = completion.text; 
         let parsed;
         if (res != null) {
           parsed = JSON.parse(res);
+        }
+
+        if(parsed.success==false){
+            return NextResponse.json({
+                success:false,
+                message:"User query problem",
+                ai_response:parsed.message
+            })
         }
 
         const project = await ProjectModel.create({
@@ -80,6 +97,10 @@ export const POST = async(req: Request) => {
           user_id:user_data._id,
           projectid:project._id
         })
+
+        const lefttoken = Token.token - 2000;
+        await TokenModel.updateOne({userid:user_data._id},{token:lefttoken})
+
 
         return NextResponse.json({
           success: true,

@@ -22,6 +22,11 @@ const Page = () => {
         router.push(`/genielab/project/${res.data.chatid}`)
       }else{
         setOpen(false)
+        if(res.data.message == "User query problem"){
+          alert(res.data.ai_response)
+        }else{
+          alert(res.data.message)
+        }
         console.log(res.data)
       }
    } catch (error) {

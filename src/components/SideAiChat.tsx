@@ -85,6 +85,26 @@ const SideAiChat = ({project_id, oldchat, onProjectUpdate }: {
                     }];
                 });
                 onProjectUpdate(res.data.parsed);
+            }else{
+                if(res.data.message == "User query problem"){
+                    setChat(prev => {
+                        const newChat = prev.slice(0, -1);
+                        return [...newChat, {
+                            messaged_by: "ai",
+                            message: res.data.ai_response,
+                            createdAt: new Date().toISOString()
+                        }];
+                    });
+                }else{
+                    setChat(prev => {
+                        const newChat = prev.slice(0, -1);
+                        return [...newChat, {
+                            messaged_by: "ai",
+                            message: res.data.message,
+                            createdAt: new Date().toISOString()
+                        }];
+                    });
+                }
             }
         } catch (error) {
             console.error('Error customizing project:', error);

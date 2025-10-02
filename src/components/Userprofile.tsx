@@ -25,13 +25,15 @@ const Userprofile = () => {
     const [open, setOpen] = React.useState(false);
 
     const [projects,setprojects] = useState<projectstype[]>([])
-
+    const [Token,SetToken] = useState<number>(0)
     const getuserdata = async()=>{
         try {
             setOpen(true)
             const res= await axios.get('/api/getuserprofile')
+            console.log(res.data)
             setuserdata(res.data.user_data)
             setprojects(res.data.userprojects)
+            SetToken(res.data.token)
             setOpen(false)
         } catch (error) {
             console.log(error)
@@ -75,7 +77,7 @@ const Userprofile = () => {
              <div className='flex max-mobile:w-[95%]  w-[90%] m-auto  rounded-[10px] bg-gradient-to-tr from-orange-600 to-blue-500 p-0.5 shadow-lg  '>
                   <div className=' bg-black w-full px-[1rem] py-[0.3rem] flex rounded-[10px]  text-[1.5rem] robot-font  transition-all  '   >
                     <div className='flex flex-col gap-[1rem] py-[1rem]' >
-                      <h2>Your Current Plan is <span className='text-green-400 font-semibold' >Pro</span></h2>
+                      <h2>Your have  <span className='text-[#de692e] font-semibold' >{Token}</span> tokens. <Link className='underline text-blue-400 ' href={"/pricing"} >Buy More</Link> </h2>
                     </div>
                   </div>
               </div>
