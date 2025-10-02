@@ -1,6 +1,6 @@
 import React from "react";
 
-type PriceBtnProps = { tokens: number,handlepurchase:(pricevalue:number)=>void,pricevalue:number };
+type PriceBtnProps = { tokens: number,handlepurchase:(pricevalue:number,tokens:number)=>void,pricevalue:number };
 
 const PriceBtn = ({ tokens,handlepurchase,pricevalue }: PriceBtnProps) => {
   return (
@@ -13,7 +13,7 @@ const PriceBtn = ({ tokens,handlepurchase,pricevalue }: PriceBtnProps) => {
         text-[1.7rem] text-gray-300 hover:bg-neutral-900
       "
       onClick={()=>{
-        handlepurchase(pricevalue)
+        handlepurchase(pricevalue,tokens)
       }}
     >
       <span

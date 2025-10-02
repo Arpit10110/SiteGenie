@@ -1,6 +1,7 @@
 import Footer from '@/components/Footer';
 import PricingCard from '@/components/PricingCard';
 import React from 'react'
+import { ToastContainer } from 'react-toastify';
 type PricingPlan = {
   title: string;
   price: string;
@@ -73,6 +74,8 @@ const Page = () => {
         </div>
         </div>
         <Footer/>
+    <ToastContainer />
+
     </>
   )
 }

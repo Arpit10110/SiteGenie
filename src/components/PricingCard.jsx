@@ -41,12 +41,12 @@ const PricingCard = ({title,price,tokens,points,intro,pricevalue}) => {
         }
     }
 
-    const verifyPayment = async (orderId,plan) => {
+    const verifyPayment = async (orderId,plan,tokens) => {
         try {
-          console.log("This is the order id-->"+orderId)
           let res = await axios.post("api/paymentverify", {
             orderId: orderId,
-            plan:plan
+            plan:plan,
+            tokens:tokens
           })
           console.log(res.data)
           if(res.data.success){
@@ -64,7 +64,7 @@ const PricingCard = ({title,price,tokens,points,intro,pricevalue}) => {
         }
       }
 
-    const handlepurchase = async (pricevalue)=>{
+    const handlepurchase = async (pricevalue,tokens)=>{
         try {
             setOpen(true);
             if (!cashfreeRef.current) {
@@ -87,7 +87,7 @@ const PricingCard = ({title,price,tokens,points,intro,pricevalue}) => {
 
             if(payment_result.paymentDetails){
                 console.log(payment_result.paymentDetails)
-                verifyPayment(orderId,pricevalue)
+                verifyPayment(orderId,pricevalue,tokens)
                }else{
                 setOpen(false);
                }
@@ -111,7 +111,7 @@ const PricingCard = ({title,price,tokens,points,intro,pricevalue}) => {
         <div className='w-[27%] max-tablet:w-[60%] max-mobile:w-[80%] px-[1.5rem] pt-[2rem] pb-[7rem] rounded-[10px] border-[1px] border-gray-700 max-tablet:mb-[3rem] ' >  
             <div className='flex flex-col gap-[1.5rem] ' >
                 <div>
-                    <h2 className='text-[2rem] text-gray-200 ' >{title}</h2>
+                    <h2 className='text-[2rem] text-gray-200 '  >{title}</h2>
                     <h3 className='text-[2rem] text-gray-300 robot-font '>{intro}</h3>
                 </div>
                 <h3  className='text-[2.5rem] text-gray-50 robot-font ' >{price}</h3>
@@ -129,7 +129,6 @@ const PricingCard = ({title,price,tokens,points,intro,pricevalue}) => {
                 }
             </div>
         </div>
-    <ToastContainer />
     </>
   )
 }
