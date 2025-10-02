@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { UserModel } from "@/model/Usermodel";
 import bcrypt from 'bcryptjs';
 import { connectDB } from "@/db/db";
+import { TokenModel } from "@/model/Token";
 export const POST = async (req: Request) => {
     try {
         const {name,email,password} = await req.json()
@@ -17,6 +18,7 @@ export const POST = async (req: Request) => {
         }
         const hashpassword = await bcrypt.hash(password, 10);
         const user = await UserModel.create({name,email,password:hashpassword})
+        await TokenModel.create({token:2000,userid:user._id});
         return NextResponse.json({success:true, message:"User created successfully",user}, {status:201} )
     } catch (error) {
         return NextResponse.json({success:false,error:error}, {status:500} )
