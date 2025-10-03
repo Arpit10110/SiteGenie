@@ -85,14 +85,17 @@ const Userprofile = () => {
                   <div className=' bg-black w-full px-[1rem] py-[0.3rem] flex rounded-[10px]  text-[1.5rem] robot-font  transition-all  '   >
                     <div className='flex flex-col gap-[1rem] py-[1rem] w-full' >
                       <h2>Your Projects</h2>
-                      <div className='w-full' >
+                      <div className='w-full flex gap-[1rem] flex-col ' >
                             {
                                 projects.length>0?
                                 projects.map((project,index)=>{
                                     return(
                                         <div key={index} className='flex gap-[1rem] py-[0.3rem] items-center justify-between px-[1rem] rounded-[5px] bg-gray-900 w-full' > 
                                             <h2>{index+1}.{project.projectname}</h2>
-                                            <Link href={`/genielab/project/${project.projectid}`} className='text-[1.5rem]  px-[1rem] py-[0.3rem] rounded-[7px]  cursor-pointer hover:scale-[1.03] transition-all bg-black ' >Open Project</Link>
+                                            <div className="flex gap-[0.5rem] " >
+                                              <Link href={`/genielab/project/${project.projectid}`} className='text-[1.5rem]  px-[1rem] py-[0.3rem] rounded-[7px]  cursor-pointer hover:scale-[1.03] transition-all bg-black ' >Open Project</Link>
+                                              <Link target='_blank' href={`/genielab/project/preview/${project.projectid}`} className='text-[1.5rem]  px-[1rem] py-[0.3rem] rounded-[7px]  cursor-pointer hover:scale-[1.03] transition-all bg-black ' >Preview</Link>
+                                            </div>
                                         </div>
                                     )
                                 })

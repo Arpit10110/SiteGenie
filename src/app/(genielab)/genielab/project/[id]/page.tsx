@@ -9,7 +9,7 @@ import Codepreview from '@/components/Codepreview'
 import JSZip from 'jszip'
 import { saveAs } from 'file-saver'
 import Link from 'next/link'
-
+import Ailoader from '@/components/Ailoader'
 
 interface chattype{
     messaged_by:string,
@@ -45,6 +45,7 @@ const Page = () => {
     const [projectName, setProjectName] = useState<string>("MyProject")
     const [oldchats, setOldchats] = useState<chattype[]>([])
     const [isDesktop, setIsDesktop] = useState<boolean | null>(null)
+     const [openailoader,setopenailoader] = useState(false)
 
 
     // Check if device is desktop
@@ -164,6 +165,13 @@ const Page = () => {
         )
     }
 
+    const handelailoaderopen = ()=>{
+        setopenailoader(true)
+    }
+    const handelailoaderclose = ()=>{
+        setopenailoader(false)
+    }
+
 
     return (
         <>
@@ -173,58 +181,67 @@ const Page = () => {
                         project_id={id}
                         oldchat={oldchats} 
                         onProjectUpdate={handleProjectUpdate}
+                        onAiloaderOpen={handelailoaderopen}
+                        onAiloaderClose={handelailoaderclose}
                     />
                 </div>
-                <div className='w-[65%] h-full px-[1rem]'>
-                    <div className='w-full flex justify-between items-center'>
-                        <div className="flex gap-[1.5rem] py-[1rem]">
-                            <button 
-                                onClick={() => setCodeview(true)} 
-                                className={`text-[1.4rem] rounded-[1rem] px-[1rem] py-[0.3rem] text-white cursor-pointer border-[1px] border-gray-700 transition-colors ${
-                                    codeview ? "bg-gray-700" : "bg-black hover:bg-gray-800"
-                                }`}
-                            >
-                                Code
-                            </button>
-                            <button 
-                                onClick={() => setCodeview(false)} 
-                                className={`text-[1.4rem] rounded-[1rem] px-[1rem] py-[0.3rem] text-white cursor-pointer border-[1px] border-gray-700 transition-colors ${
-                                    !codeview ? "bg-gray-700" : "bg-black hover:bg-gray-800"
-                                }`}
-                            >
-                                Preview
-                            </button>
+                {
+                    openailoader ?
+                    <div className='w-[65%] h-full px-[1rem]'>
+                    <Ailoader type='modify' /> 
+                    </div>
+                    :
+                    <div className='w-[65%] h-full px-[1rem]'>
+                        <div className='w-full flex justify-between items-center'>
+                            <div className="flex gap-[1.5rem] py-[1rem]">
+                                <button 
+                                    onClick={() => setCodeview(true)} 
+                                    className={`text-[1.4rem] rounded-[1rem] px-[1rem] py-[0.3rem] text-white cursor-pointer border-[1px] border-gray-700 transition-colors ${
+                                        codeview ? "bg-gray-700" : "bg-black hover:bg-gray-800"
+                                    }`}
+                                >
+                                    Code
+                                </button>
+                                <button 
+                                    onClick={() => setCodeview(false)} 
+                                    className={`text-[1.4rem] rounded-[1rem] px-[1rem] py-[0.3rem] text-white cursor-pointer border-[1px] border-gray-700 transition-colors ${
+                                        !codeview ? "bg-gray-700" : "bg-black hover:bg-gray-800"
+                                    }`}
+                                >
+                                    Preview
+                                </button>
+                            </div>
+                            <div className="flex gap-[1.5rem] py-[1rem]">
+                                <button 
+                                    onClick={downloadFiles}  
+                                    className='text-[1.4rem] rounded-[1rem] px-[1rem] py-[0.3rem] text-white cursor-pointer border-[1px] border-gray-700 transition-colors hover:bg-gray-800'
+                                >
+                                    Download
+                                </button>
+                                <Link 
+                                    target='_blank'
+                                    href={`/genielab/project/preview/${id}`}
+                                    className='text-[1.4rem] rounded-[1rem] px-[1rem] py-[0.3rem] text-white cursor-pointer border-[1px] border-gray-700 transition-colors hover:bg-gray-800'
+                                >
+                                    Open in new tab
+                                </Link>
+                            </div>
                         </div>
-                        <div className="flex gap-[1.5rem] py-[1rem]">
-                            <button 
-                                onClick={downloadFiles}  
-                                className='text-[1.4rem] rounded-[1rem] px-[1rem] py-[0.3rem] text-white cursor-pointer border-[1px] border-gray-700 transition-colors hover:bg-gray-800'
-                            >
-                                Download
-                            </button>
-                            <Link 
-                                target='_blank'
-                                href={`/genielab/project/preview/${id}`}
-                                className='text-[1.4rem] rounded-[1rem] px-[1rem] py-[0.3rem] text-white cursor-pointer border-[1px] border-gray-700 transition-colors hover:bg-gray-800'
-                            >
-                                Open in new tab
-                            </Link>
+                        <div className='w-full flex-1' style={{ height: 'calc(100% - 4rem)' }}>
+                            {codeview ? (
+                                <CodeBox 
+                                    htmlcontent={htmlcontent} 
+                                    csscontent={csscontent} 
+                                    jscontent={jscontent}
+                                />
+                            ) : (
+                                <Codepreview 
+                                    combinedcode={combinedcode}
+                                />
+                            )}
                         </div>
                     </div>
-                    <div className='w-full flex-1' style={{ height: 'calc(100% - 4rem)' }}>
-                        {codeview ? (
-                            <CodeBox 
-                                htmlcontent={htmlcontent} 
-                                csscontent={csscontent} 
-                                jscontent={jscontent}
-                            />
-                        ) : (
-                            <Codepreview 
-                                combinedcode={combinedcode}
-                            />
-                        )}
-                    </div>
-                </div>
+                }
             </div>
         </>
     )

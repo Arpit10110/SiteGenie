@@ -19,10 +19,12 @@ interface chattype{
     user_id:string
 }
 
-const SideAiChat = ({project_id, oldchat, onProjectUpdate }: { 
+const SideAiChat = ({project_id, oldchat, onProjectUpdate,onAiloaderOpen,onAiloaderClose}:{
     project_id: string | string[] | null,
     oldchat: chattype[], 
-    onProjectUpdate: (updatedProject: updatedProject) => void 
+    onProjectUpdate: (updatedProject: updatedProject) => void ,
+    onAiloaderOpen:()=>void,
+    onAiloaderClose:()=>void
 }) => {
     const [chat, setChat] = React.useState<{ messaged_by: string; message: string; createdAt?: string }[]>([])
     const [newmessage, setNewmessage] = React.useState("")
@@ -47,7 +49,7 @@ const SideAiChat = ({project_id, oldchat, onProjectUpdate }: {
         if (!newmessage.trim() || isLoading) return;
         
         setIsLoading(true);
-        
+        onAiloaderOpen()
         // Add user message immediately to UI
         const userMsg = {
             messaged_by: "user",
@@ -85,7 +87,9 @@ const SideAiChat = ({project_id, oldchat, onProjectUpdate }: {
                     }];
                 });
                 onProjectUpdate(res.data.parsed);
+                onAiloaderClose()
             }else{
+                onAiloaderClose()
                 if(res.data.message == "User query problem"){
                     setChat(prev => {
                         const newChat = prev.slice(0, -1);
@@ -107,6 +111,7 @@ const SideAiChat = ({project_id, oldchat, onProjectUpdate }: {
                 }
             }
         } catch (error) {
+            onAiloaderClose()
             console.error('Error customizing project:', error);
             
             // Replace loading message with error message
