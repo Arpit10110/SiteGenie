@@ -5,8 +5,8 @@ import { TokenModel } from "@/model/Token";
 import { connectDB } from "@/db/db";
 import { getuser } from "@/lib/getuser";
 const cashfree = new Cashfree(
-    // CFEnvironment.PRODUCTION,
-    CFEnvironment.SANDBOX,
+    CFEnvironment.PRODUCTION,
+    // CFEnvironment.SANDBOX,
     process.env.Cashfree_App_ID, 
     process.env.Cashfree_Secret
   );

@@ -5,7 +5,7 @@ import {load} from '@cashfreepayments/cashfree-js'
 import PriceBtn from './ui/PriceBtn';
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
-import { toast , ToastContainer } from 'react-toastify';
+import { toast  } from 'react-toastify';
 const PricingCard = ({title,price,tokens,points,intro,pricevalue}) => {
     const cashfreeRef = useRef(null)
     const [open, setOpen] = useState(false);
@@ -13,8 +13,8 @@ const PricingCard = ({title,price,tokens,points,intro,pricevalue}) => {
     const initializeSDK = async () => {
         try {
         // Use "production" for production and "sandbox" for local
-        // const instance = await load({ mode: "production" })
-        const instance = await load({ mode: "sandbox" })
+        const instance = await load({ mode: "production" })
+        // const instance = await load({ mode: "sandbox" })
         cashfreeRef.current = instance
         } catch (e) {
         console.error("Cashfree SDK load failed", e)

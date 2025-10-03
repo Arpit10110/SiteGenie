@@ -18,7 +18,7 @@ const Page = () => {
       price: "₹49",
       tokens: 10000,
       intro: "Perfect for beginners",
-      pricevalue:49,
+      pricevalue:1,
       points: [
         "Generate up to 10 simple websites",
         "1 Fresh Build = 1000 tokens",
