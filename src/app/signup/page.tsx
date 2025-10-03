@@ -12,7 +12,7 @@ const Page = async() => {
   return (
     <>
      
-     <div className='w-full h-[100vh] flex justify-center items-center ' >
+     <div className='w-full h-[100vh] max-mobile:h-fit max-mobile:mt-[15rem] flex justify-center items-center ' >
         <div className='w-[50%] max-tablet:w-[80%] max-mobile:w-[90%] bg-black border-[1px] border-gray-700  p-[1rem] rounded-[5px] flex flex-col gap-[1.5rem] justify-center items-center' >
             <div className='w-full flex flex-col gap-[0.5rem] justify-center items-center ' >
                 <h2 className='text-[2rem] text-gray-300 ' >Create your account</h2>
