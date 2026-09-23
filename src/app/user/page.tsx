@@ -16,13 +16,13 @@ interface userdata_type{
   }
  
 }
-const page = () => {
+const Page = () => {
   const [data,setdata]= useState<userdata_type[]>([])
   const [Loading,setLoading]= useState(true);
   const [counter,setCounter] = useState(0)
   const getuser = async()=>{
     try {
-      const res =  fetch("https://jsonplaceholder.typicode.com/users").then(async(data)=>{
+      fetch("https://jsonplaceholder.typicode.com/users").then(async(data)=>{
         const user_data:userdata_type[] = await data.json()
         console.log(user_data)
         const filteredUsers = user_data.filter(user => user.name.includes("B"))
@@ -74,4 +74,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page

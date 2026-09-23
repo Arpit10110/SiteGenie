@@ -1,6 +1,9 @@
-import React from 'react'
+interface CounterProps {
+  counter: number;
+  setCounter: React.Dispatch<React.SetStateAction<number>>;
+}
 
-const Counter = ({setCounter,counter}) => {
+const Counter = ({ setCounter, counter }: CounterProps) => {
   return (
    <>
      <button onClick={()=>{

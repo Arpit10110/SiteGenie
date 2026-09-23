@@ -3,14 +3,10 @@ import React, { useEffect, useRef } from 'react'
 const Codepreview= ({combinedcode}:{combinedcode:string}) => {
     const iframeRef = useRef<HTMLIFrameElement>(null)
 
-    const combineAndExecuteCode = () => {
+    useEffect(() => {
         if (!iframeRef.current) return
         iframeRef.current.srcdoc = combinedcode
-    }
-
-    useEffect(() => {
-        combineAndExecuteCode()
-    }, [])
+    }, [combinedcode])
 
     return (
         <div className="w-full h-full bg-white rounded-lg overflow-hidden border border-gray-300">

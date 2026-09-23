@@ -1,7 +1,6 @@
 import NextAuth from "next-auth"
 import GoogleProvider from 'next-auth/providers/google';
 import CredensitalProvider from 'next-auth/providers/credentials';
-import axios from "axios";
  
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
@@ -34,17 +33,25 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   callbacks:{
     signIn:async({user,account})=>{
       if(account?.provider=="google"){
-        const res = await axios.post(`${process.env.Frontend_Url}api/googlelogin`,{
-          email:user.email,
-          name:user.name,
-          googleid:user.id,
-          image:user.image
-        })
-        console.log(res.data)
-        if(res.data.success){
-          return true
-        }else{
-          return false
+        try {
+          const res = await fetch(`${process.env.Frontend_Url}api/googlelogin`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              email: user.email,
+              name: user.name,
+              googleid: user.id,
+              image: user.image
+            })
+          });
+          const data = await res.json();
+          console.log(data);
+          return !!data.success;
+        } catch (err) {
+          console.error("Google login callback error:", err);
+          return false;
         }
       }
       else if (account?.provider === "credentials") {

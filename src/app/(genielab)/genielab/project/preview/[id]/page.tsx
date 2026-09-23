@@ -12,32 +12,32 @@ const Page = () => {
         const [combinedcode, setCombinedcode] = useState<string>("")
         
 
-        const getproject = async (id: string) => {
-            setLoading(true)
-            try {
-                const res = await axios.post(`/api/preview`, {
-                    projectid: id
-                }) 
-                console.log(res.data)
-                if (res.data.success) {
-                    setCombinedcode(res.data.combinedcode|| "")
-                }else{
-                    if(res.data.message=="Please login first"){
-                        router.push("/login")
-                    }
-                }
-            } catch (error) {
-                console.log(error)
-            } finally {
-                setLoading(false)
-            }
-        }
-
         useEffect(() => {
+            const getproject = async (projectId: string) => {
+                setLoading(true)
+                try {
+                    const res = await axios.post(`/api/preview`, {
+                        projectid: projectId
+                    }) 
+                    console.log(res.data)
+                    if (res.data.success) {
+                        setCombinedcode(res.data.combinedcode || "")
+                    } else {
+                        if (res.data.message == "Please login first") {
+                            router.push("/login")
+                        }
+                    }
+                } catch (error) {
+                    console.log(error)
+                } finally {
+                    setLoading(false)
+                }
+            }
+
             if (id && typeof id === 'string') {
                 getproject(id)
             }
-        }, [id])
+        }, [id, router])
   return (
    <>
    {

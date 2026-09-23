@@ -4,7 +4,7 @@ import { UserModel } from "@/model/Usermodel";
 import { connectDB } from "@/db/db"; 
 import { UserProject } from "@/model/userproject";
 import { TokenModel } from "@/model/Token";
-export const GET = async(req:Request)=>{
+export const GET = async () => {
     try {
         const user  = await getuser();
         if(!user){
