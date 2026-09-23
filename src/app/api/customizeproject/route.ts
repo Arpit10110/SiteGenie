@@ -70,22 +70,28 @@ export const POST = async(req:Request)=>{
             apiKey: process.env.GEMINI_API_KEY!,
         });
         
-        const completion = await ai.models.generateContent({
-            model: "gemini-2.5-flash",
-            contents: [
-                {
-                    role: "model", 
-                    parts: [
+        const models = ['gemini-3.6-flash', 'gemini-3.5-flash-lite'];
+        let completion;
+        let lastError: any;
+
+        for (const model of models) {
+            try {
+                completion = await ai.models.generateContent({
+                    model,
+                    contents: [
                         {
-                            text: SITE_MODIFICATION_PROMPT
-                        }
-                    ]
-                },
-                {
-                    role: "user", 
-                    parts: [
+                            role: "model", 
+                            parts: [
+                                {
+                                    text: SITE_MODIFICATION_PROMPT
+                                }
+                            ]
+                        },
                         {
-                            text: `=== PREVIOUS CONVERSATION HISTORY ===
+                            role: "user", 
+                            parts: [
+                                {
+                                    text: `=== PREVIOUS CONVERSATION HISTORY ===
 ${formattedChatHistory}
 
 === NEW USER REQUEST ===
@@ -96,14 +102,24 @@ Please analyze the existing website code from the conversation history above and
 2. Build upon the existing code structure and design
 3. Maintain the same coding style and patterns used previously
 4. Ensure the modifications integrate seamlessly with the existing codebase`
+                                }
+                            ]
                         }
-                    ]
-                }
-            ],           
-            config: {
-                responseMimeType: "application/json"
+                    ],           
+                    config: {
+                        responseMimeType: "application/json"
+                    }
+                });
+                if (completion) break;
+            } catch (err) {
+                lastError = err;
+                console.warn(`Model ${model} failed, trying fallback:`, err);
             }
-        });
+        }
+
+        if (!completion) {
+            throw lastError;
+        }
 
 
         const aiResponse = completion.text;
@@ -143,6 +159,10 @@ Please analyze the existing website code from the conversation history above and
             parsed
         })
     } catch (error) {
-        return NextResponse.json({success:false,error:error});
+        console.error('Customize Project Error:', error);
+        return NextResponse.json({
+            success: false,
+            error: error instanceof Error ? error.message : error
+        }, { status: 500 });
     }
 }

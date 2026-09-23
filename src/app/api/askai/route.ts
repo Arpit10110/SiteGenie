@@ -9,33 +9,39 @@ import { UserModel } from '@/model/Usermodel';
 import { UserProject } from '@/model/userproject';
 import { getuser } from '@/lib/getuser';
 import { TokenModel } from '@/model/Token';
-export const POST = async(req: Request) => {
-    try {
-      await connectDB();
-        const { userquery } = await req.json();
-        const user = await getuser();
-        if(user==null){
-            return NextResponse.json({success:false,error:"Please login first"})
-        }
-        const user_data = await UserModel.findOne({email:user.user?.email});
+export const POST = async (req: Request) => {
+  try {
+    await connectDB();
+    const { userquery } = await req.json();
+    const user = await getuser();
+    if (user == null) {
+      return NextResponse.json({ success: false, error: "Please login first" })
+    }
+    const user_data = await UserModel.findOne({ email: user.user?.email });
 
-        const Token = await TokenModel.findOne({userid:user_data._id})
-        if(Token.token <2000){
-          return NextResponse.json({
-            success:false,
-            message:"You have reached your Token limit"
-          })
-        }
-        
-        const ai = new GoogleGenAI({
-          apiKey: process.env.GEMINI_API_KEY!,
-        });
+    const Token = await TokenModel.findOne({ userid: user_data._id })
+    if (Token.token < 2000) {
+      return NextResponse.json({
+        success: false,
+        message: "You have reached your Token limit"
+      })
+    }
 
-        const completion = await ai.models.generateContent({
-          model: "gemini-2.5-flash",
+    const ai = new GoogleGenAI({
+      apiKey: process.env.GEMINI_API_KEY!,
+    });
+
+    const models = ['gemini-3.6-flash', 'gemini-3.5-flash-lite'];
+    let completion;
+    let lastError: any;
+
+    for (const model of models) {
+      try {
+        completion = await ai.models.generateContent({
+          model,
           contents: [
             {
-              role: "model", 
+              role: "model",
               parts: [
                 {
                   text: SITE_GENERATOR_PROMPT
@@ -43,75 +49,85 @@ export const POST = async(req: Request) => {
               ]
             },
             {
-              role: "user", 
+              role: "user",
               parts: [
                 {
                   text: `userquery: ${userquery}`
                 }
               ]
             }
-          ],           
+          ],
           config: {
             responseMimeType: "application/json"
           }
         });
-
-        const res = completion.text; 
-        let parsed;
-        if (res != null) {
-          parsed = JSON.parse(res);
-        }
-
-        if(parsed.success==false){
-            return NextResponse.json({
-                success:false,
-                message:"User query problem",
-                ai_response:parsed.message
-            })
-        }
-
-        const project = await ProjectModel.create({
-          project_name:parsed.project_name,
-          html:parsed.html,
-          css:parsed.css,
-          js:parsed.js,
-          combined:parsed.combined,
-          user_id:user_data._id
-        })
-
-        await MessageModel.create({
-          message:userquery,
-          user_id:user_data._id,
-          messaged_by:"user",
-          project_id:project._id
-        })
-        await MessageModel.create({
-          message:parsed.message,
-          user_id:user_data._id,
-          messaged_by:"ai",
-          project_id:project._id
-        })
-
-        await UserProject.create({
-          projectname:project.project_name,
-          user_id:user_data._id,
-          projectid:project._id
-        })
-
-        const lefttoken = Token.token - 2000;
-        await TokenModel.updateOne({userid:user_data._id},{token:lefttoken})
-
-
-        return NextResponse.json({
-          success: true,
-          chatid: project._id,
-        });
-        
-    } catch (error) {
-        console.error('API Error:', error); // Add logging
-        return NextResponse.json({
-            error: error instanceof Error ? error.message : 'Unknown error',
-            success: false
-        }, { status: 500 });
+        if (completion) break;
+      } catch (err) {
+        lastError = err;
+        console.warn(`Model ${model} failed, trying fallback:`, err);
+      }
     }
+
+    if (!completion) {
+      throw lastError;
+    }
+
+    const res = completion.text;
+    let parsed;
+    if (res != null) {
+      parsed = JSON.parse(res);
+    }
+
+    if (parsed.success == false) {
+      return NextResponse.json({
+        success: false,
+        message: "User query problem",
+        ai_response: parsed.message
+      })
+    }
+
+    const project = await ProjectModel.create({
+      project_name: parsed.project_name,
+      html: parsed.html,
+      css: parsed.css,
+      js: parsed.js,
+      combined: parsed.combined,
+      user_id: user_data._id
+    })
+
+    await MessageModel.create({
+      message: userquery,
+      user_id: user_data._id,
+      messaged_by: "user",
+      project_id: project._id
+    })
+    await MessageModel.create({
+      message: parsed.message,
+      user_id: user_data._id,
+      messaged_by: "ai",
+      project_id: project._id
+    })
+
+    await UserProject.create({
+      projectname: project.project_name,
+      user_id: user_data._id,
+      projectid: project._id
+    })
+
+    const lefttoken = Token.token - 2000;
+    await TokenModel.updateOne({ userid: user_data._id }, { token: lefttoken })
+
+
+    return NextResponse.json({
+      success: true,
+      chatid: project._id,
+    });
+
+  } catch (error) {
+    console.error('API Error:', error); // Add logging
+    return NextResponse.json({
+      error: error instanceof Error ? error.message : 'Unknown error',
+      success: false
+    }, { status: 500 });
+  }
 }

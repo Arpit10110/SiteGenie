@@ -1,0 +1,23 @@
+.user_wrapper{
+    display: flex;
+    flex-wrap: wrap;
+    row-gap: 1rem;
+    margin-top: 5rem;
+    margin-bottom: 5rem;
+    justify-content: space-around;
+}
+
+.user_box{
+    width: 45%;
+    display: flex;
+    flex-direction: column;
+    background-color: #00000029;
+    border-radius: 10px;
+    padding: 1rem;
+}
+
+.user_adress{
+    display: flex;
+    justify-content: space-between;
+}
+
